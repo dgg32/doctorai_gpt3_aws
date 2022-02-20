@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: doctorai-gpt3
+
+
+Resources:
+
+  Neo4jSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Inbound rules for neo4j instance
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        CidrIp: 0.0.0.0/0
+        FromPort: 22
+        ToPort: 22
+      - IpProtocol: tcp
+        CidrIp: 0.0.0.0/0
+        FromPort: 7474
+        ToPort: 7474
+      - IpProtocol: tcp
+        CidrIp: 0.0.0.0/0
+        FromPort: 7687
+        ToPort: 7687
+      - IpProtocol: tcp
+        CidrIp: 0.0.0.0/0
+        FromPort: 7473
+        ToPort: 7473
+
+  Neo4jInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      SecurityGroupIds:
+        - !Ref Neo4jSecurityGroup
+      ImageId: ami-0b3c6527e6a271287
+      InstanceType: r4.large
+      KeyName : cloudformation
+
+
+Outputs: 
+
+
+  Neo4jInstancePublicDNS:
+    Description: The public domain name of the Neo4j server
+    Value: !GetAtt Neo4jInstance.PublicDnsName
+
