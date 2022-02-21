@@ -1,6 +1,6 @@
 # doctorai_gpt3_aws
 
-Set up an r4.large instance on EC2 with Neo4j community running.
+Set up an r4.large instance on EC2 with Neo4j community running. It assumes that you have a key called "cloudformation". If you have the key in other name, you can change it in Line 37.
 
 ## build
 sam build
